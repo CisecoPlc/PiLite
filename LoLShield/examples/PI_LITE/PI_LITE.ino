@@ -60,7 +60,6 @@ void setup()                    // run once, when the sketch starts
   Serial.begin(9600);
   Serial.println("Pi-Lite V0.2"); //Serial.flush();
   LedSign::Init();
-
 }
 
 
@@ -221,10 +220,30 @@ void loop()                     // run over and over again
         currentchar = '$';	// replace the '$'
         currentpos = 13;
       }
+      else
+      {
+        status = STATUS_SCROLL;
+      }
     }
     else if (millis() - lastCharReceived > ENTERTIMEOUT)
     {
-      status = STATUS_SCROLL;
+      if (currentchar == 0)
+      {
+        if (status == STATUS_ONE)
+        {
+          status = STATUS_SCROLL;
+        }
+        else
+        {
+          status = STATUS_REPLACEONE;
+        }
+        currentchar = '$';	// replace the '$'
+        currentpos = 13;
+      }
+      else
+      {
+        status = STATUS_SCROLL;
+      }
     }
     break;
   case STATUS_REPLACEONE:
@@ -424,6 +443,7 @@ char readSerial()
   if (c < 32 && c != '\r') return 0;	// throw away control characters
   return c;
 }
+
 
 
 
