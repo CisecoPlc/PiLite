@@ -3,7 +3,9 @@
  Copyright (c) 2013 Ciseco Ltd.
  Code written by Ciseco Ltd. April 4th 2013
  	2013-04-04 - V0.2 Initial beta release for internal testing
- 
+ 	2013-05-02 - V0.3 Added new commands - scroll and display character
+				  Added brief flash of a cross at startup
+
  Please see Readme.txt for details on the code functionality
  
  ///////////////////////////////////////////////////////////////////////
@@ -58,8 +60,12 @@ uint8_t init_pos;
 void setup()                    // run once, when the sketch starts
 {
   Serial.begin(9600);
-  Serial.println("Pi-Lite V0.2"); //Serial.flush();
+  Serial.println("Pi-Lite V0.3"); //Serial.flush();
   LedSign::Init();
+  LedSign::Horizontal(4,127);
+  LedSign::Vertical(6,127);
+  delay(50);
+  LedSign::Clear();
 }
 
 
@@ -299,6 +305,7 @@ void scroll()
 
 void processCommandChar(char c)
 {
+  int iTmp;
   uint8_t row;
   char* ptr;
   uint8_t column;
@@ -325,11 +332,32 @@ void processCommandChar(char c)
       switch (commandchar)
       {
       case 'S':	// SPEEDnnn (1-1000) Set scrolling delay in mS 1 is scroll very fast, 1000 is scroll very slow.
+		        // SCROLLnn - scroll left or right n columns
         if (0 == strncmp(commandbuffer,"PEED",4))
         {
           // this is a SPEED command
           scrollDelay = atoi(&commandbuffer[4]);
           if (scrollDelay == 0 ) scrollDelay = 1;
+        }
+        if (0 == strncmp(commandbuffer,"CROLL",5))
+        {
+          // this is a SCROLL command
+          iTmp = atoi(&commandbuffer[4]);
+          if (iTmp == 0 ) LedSign::Scroll(iTmp);
+        }
+        break;
+      case 'T':	// Tc,r,char - display char at c,r
+        column = atoi(commandbuffer);
+        ptr = strchr(commandbuffer,',');
+        if (ptr)
+        {
+          row = atoi(ptr+1);
+          if (row > 0 && row < 15 && column > 0 && column < 10)
+          {
+            column--;
+            row--;
+			Font::putChar(column,row,commandbuffer[commandbufferptr-1]);
+          }
         }
         break;
       case 'F':	// F01010110101 - set the frame bufer (one digit per pixel - 126 digits in total)
