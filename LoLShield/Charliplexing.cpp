@@ -320,6 +320,7 @@ void LedSign::Vertical(int x, int set) {
  */
 void LedSign::Set(uint8_t x, uint8_t y, uint8_t c)
 {
+	if (x > 13 || y > 8) return;
     uint8_t pin_high  = pgm_read_byte_near(&ledMap[x+y*14].high);
     uint8_t pin_low = pgm_read_byte_near(&ledMap[x+y*14].low);
     // pin_low is directly the address in the led array (minus 2 because the 
