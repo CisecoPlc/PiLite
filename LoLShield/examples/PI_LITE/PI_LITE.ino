@@ -5,6 +5,7 @@
  	2013-04-04 - V0.2 Initial beta release for internal testing
  	2013-05-02 - V0.3 Added new commands - scroll and display character
 				  Added brief flash of a cross at startup
+	2013-05-03 - V1   updated startup and added logo
 
  Please see Readme.txt for details on the code functionality
  
@@ -54,17 +55,19 @@ uint32_t timer1;
 uint8_t init_stage=0;
 uint8_t init_pos;
 
+uint16_t logo[14] = {0b111100000,0b101011111,0b111000001,
+					 0b000000001,0b101100000,0b000011111,
+					 0b000000000,0b000010000,0b000011111,
+					 0b000010000,0b000000000,0b000011111,
+					 0b000010101,0b100010101};
 /* -----------------------------------------------------------------  */
 /** MAIN program Setup
  */
 void setup()                    // run once, when the sketch starts
 {
   Serial.begin(9600);
-  Serial.println("Pi-Lite V0.3"); //Serial.flush();
+  Serial.println("Pi-Lite V1"); //Serial.flush();
   LedSign::Init();
-  LedSign::Horizontal(4,127);
-  LedSign::Vertical(6,127);
-  delay(50);
   LedSign::Clear();
 }
 
@@ -79,15 +82,35 @@ void loop()                     // run over and over again
   case STATUS_INIT:
     if (Serial.available())
     {
-      LedSign::Clear();
-      status = STATUS_NORMAL;
+      static byte dollarcount = 0;
+	  if (Serial.peek() == '$')		// we shortcut the init if $$$ is received
+	  {
+		  if (++dollarcount >=3)
+		  {
+			LedSign::Clear();
+			status = STATUS_NORMAL;
+		  }
+	  }
+	  else
+	  {
+		if (init_stage == 5)
+		{
+				LedSign::Clear();
+				status = STATUS_NORMAL;
+		}
+		else
+		{
+			dollarcount = 0;		// not a $ so ignore
+			Serial.read();			// throw it away
+		}
+	  }
     }
     else
     {
       switch (init_stage)
       {
       case 0:					// wait one second
-        if (millis()-timer1 > 1000)	// delay one second
+        if (millis()-timer1 > 500)	// delay one second
         {
           timer1 = millis();
           init_stage=1;
@@ -96,7 +119,7 @@ void loop()                     // run over and over again
         }
         break;
       case 1:					// scroll row down
-        if (millis()-timer1 > 250)	// delay one quarter second
+        if (millis()-timer1 > 100)	// delay one quarter second
         {
           timer1 = millis();
           if (init_pos == 8)
@@ -111,7 +134,7 @@ void loop()                     // run over and over again
         }
         break;
       case 2:					// scroll row up
-        if (millis()-timer1 > 250)	// delay one quarter second
+        if (millis()-timer1 > 100)	// delay one quarter second
         {
           timer1 = millis();
           if (init_pos == 0)
@@ -128,7 +151,7 @@ void loop()                     // run over and over again
         }
         break;
       case 3:						// scroll column right
-        if (millis()-timer1 > 250)	// delay one quarter second
+        if (millis()-timer1 > 100)	// delay one quarter second
         {
           timer1 = millis();
           if (init_pos == 13)
@@ -143,15 +166,16 @@ void loop()                     // run over and over again
         }
         break;
       case 4:						// scroll column left
-        if (millis()-timer1 > 250)	// delay one quarter second
+        if (millis()-timer1 > 100)	// delay one quarter second
         {
           timer1 = millis();
           if (init_pos == 0)
           {
             init_stage=5;
             LedSign::Clear();
-            Font::putChar(3,1,'P');
-            Font::putChar(10,1,'i');
+            //Font::putChar(3,1,'P');
+            //Font::putChar(10,1,'i');
+			displayLogo();
           }
           else
           {
@@ -472,6 +496,19 @@ char readSerial()
   return c;
 }
 
+void displayLogo()
+{
+	for (uint8_t x=0; x<14; x++)
+	{
+		uint16_t col = logo[x];
+		for (int8_t y=8; y>=0; y--)
+		{
+			LedSign::Set(x, y, (col & 0x01)?127:0);
+			col >>= 1;
+		}
+	}
+
+}
 
 
 

@@ -13,7 +13,7 @@ Pixel (1,1) is upper left and (14,9) is lower right.
 Powerup
 =======
 On powerup the PI-Lite will send identification and version down the serial port "Pi-Lite version n.n"
-The following can be interrupted at any time by a $$$ or a character to scroll.
+The following can be interrupted at any time by a $$$.
 1) delay for 1 second
 2) scroll a single row down and up
 3) scroll a single column right and left
