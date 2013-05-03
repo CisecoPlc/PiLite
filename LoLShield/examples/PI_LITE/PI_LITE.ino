@@ -6,6 +6,7 @@
  	2013-05-02 - V0.3 Added new commands - scroll and display character
 				  Added brief flash of a cross at startup
 	2013-05-03 - V1   updated startup and added logo
+				 V1.1 Corrected scroll command
 
  Please see Readme.txt for details on the code functionality
  
@@ -59,14 +60,14 @@ uint16_t logo[14] = {0b111100000,0b101011111,0b111000001,
 					 0b000000001,0b101100000,0b000011111,
 					 0b000000000,0b000010000,0b000011111,
 					 0b000010000,0b000000000,0b000011111,
-					 0b000010101,0b100010101};
+					 0b000010101,0b110010101};
 /* -----------------------------------------------------------------  */
 /** MAIN program Setup
  */
 void setup()                    // run once, when the sketch starts
 {
   Serial.begin(9600);
-  Serial.println("Pi-Lite V1"); //Serial.flush();
+  Serial.println("Pi-Lite V1.1"); //Serial.flush();
   LedSign::Init();
   LedSign::Clear();
 }
@@ -368,8 +369,8 @@ void processCommandChar(char c)
         if (0 == strncmp(commandbuffer,"CROLL",5))
         {
           // this is a SCROLL command
-          iTmp = atoi(&commandbuffer[4]);
-          if (iTmp == 0 ) LedSign::Scroll(iTmp);
+          iTmp = atoi(&commandbuffer[5]);
+          if (iTmp != 0 ) LedSign::Scroll(iTmp);
         }
         break;
       case 'T':	// Tc,r,char - display char at c,r

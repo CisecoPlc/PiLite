@@ -30,5 +30,5 @@ $$$Vr,val - Bargraph (horizontal 2 rows) set row r (1-2) to val
 $$$Pc,r,action - Set the pixel at column c (1-15), row r(1-9) to action (ON,OFF,TOGGLE)
 $$$ALL,ON - set all pixels on
 $$$ALL,OFF - set all pixels off
-$$$SCROLLval - Scroll val columns left or right
+$$$SCROLLval - Scroll val columns left (val is positive) or right (val is negative)
 $$$Tc,r,char - display char at c,r
