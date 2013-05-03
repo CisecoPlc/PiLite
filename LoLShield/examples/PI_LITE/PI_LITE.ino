@@ -85,10 +85,12 @@ void loop()                     // run over and over again
       static byte dollarcount = 0;
 	  if (Serial.peek() == '$')		// we shortcut the init if $$$ is received
 	  {
+		  Serial.read();			// throw it away
 		  if (++dollarcount >=3)
 		  {
 			LedSign::Clear();
-			status = STATUS_NORMAL;
+			status = STATUS_WAITFORCOMMAND;
+			Serial.println("OK");
 		  }
 	  }
 	  else

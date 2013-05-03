@@ -17,7 +17,7 @@ The following can be interrupted at any time by a $$$.
 1) delay for 1 second
 2) scroll a single row down and up
 3) scroll a single column right and left
-4) Display Pi-Lite Logo
+4) Display Pi-Lite Logo - number pixels lit in the upper right corner indicate the firmware version
 
 Commands
 ========
