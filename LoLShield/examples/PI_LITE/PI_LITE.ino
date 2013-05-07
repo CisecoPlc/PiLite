@@ -7,6 +7,7 @@
 				  Added brief flash of a cross at startup
 	2013-05-03 - V1   updated startup and added logo
 				 V1.1 Corrected scroll command
+	2013-05-07	 V1.2 Fixed the $$$P command - had the wrong limits for column and row.
 
  Please see Readme.txt for details on the code functionality
  
@@ -60,14 +61,14 @@ uint16_t logo[14] = {0b111100000,0b101011111,0b111000001,
 					 0b000000001,0b101100000,0b000011111,
 					 0b000000000,0b000010000,0b000011111,
 					 0b000010000,0b000000000,0b000011111,
-					 0b000010101,0b110010101};
+					 0b010010101,0b100010101};
 /* -----------------------------------------------------------------  */
 /** MAIN program Setup
  */
 void setup()                    // run once, when the sketch starts
 {
   Serial.begin(9600);
-  Serial.println("Pi-Lite V1.1"); //Serial.flush();
+  Serial.println("Pi-Lite V1.2"); //Serial.flush();
   LedSign::Init();
   LedSign::Clear();
 }
@@ -455,7 +456,7 @@ void processCommandChar(char c)
         if (ptr)
         {
           row = atoi(ptr+1);
-          if (row > 0 && row < 15 && column > 0 && column < 10)
+          if (row > 0 && row < 10 && column > 0 && column < 15)
           {
             column--;
             row--;
