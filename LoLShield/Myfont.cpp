@@ -17,7 +17,7 @@
 #include "Arduino.h"
 #include <inttypes.h>
 
-byte la[][5] PROGMEM = {
+const byte la[][5] PROGMEM = {
     /*all ascii codes:*/
 		{0x00,0x00,0x00,0x00,0x00}, /* ASCII-Code 0x0 => Blank */
 		{0x33,0x00,0x00,0x00,0x00}, /* ASCII-Code 0x1 => Blank */
