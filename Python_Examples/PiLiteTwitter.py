@@ -21,6 +21,7 @@ import sys
 from time import sleep
 import twitter
 import serial
+import urllib2
 
 '''
   a .tweetrc fileshould be used to set the
@@ -111,7 +112,8 @@ while True:
 		                else:
 		                        ser.write(text + "...")
 		                        text = ""
-	except URLError:
+	except urllib2.URLError, e:
 		ser.write("...oops... URL error ...")
-        sleep(15)             
+		ser.write(e)
+	sleep(15)             
 
