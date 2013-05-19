@@ -1,0 +1,61 @@
+  def GetHomeTimeline(self,
+                      since_id=None,
+                      max_id=None,
+                      count=None,
+                      page=None):
+    '''Fetch your home timeline
+
+    The twitter.Api instance must be authenticated.
+
+    Args:
+      since_id:
+        Returns only public statuses with an ID greater than (that is,
+        more recent than) the specified ID. [optional]
+      max_id:
+        Returns only statuses with an ID less than (that is, older
+        than) or equal to the specified ID. [optional]
+      count:
+        Specifies the number of statuses to retrieve. May not be
+        greater than 200.  [optional]
+      page:
+         Specifies the page of results to retrieve. Note: there are
+         pagination limits. [optional]
+
+    Returns:
+      A sequence of Status instances, one for each message up to count
+    '''
+    parameters = {}
+
+    if not self._oauth_consumer:
+      raise TwitterError("User must be authenticated.")
+    else:
+      url = '%s/statuses/home_timeline.json' % self.base_url
+
+    if since_id:
+      try:
+        parameters['since_id'] = long(since_id)
+      except:
+        raise TwitterError("since_id must be an integer")
+
+    if max_id:
+      try:
+        parameters['max_id'] = long(max_id)
+      except:
+        raise TwitterError("max_id must be an integer")
+
+    if count:
+      try:
+        parameters['count'] = int(count)
+      except:
+        raise TwitterError("count must be an integer")
+
+    if page:
+      try:
+        parameters['page'] = int(page)
+      except:
+        raise TwitterError("page must be an integer")
+
+    json = self._FetchUrl(url, parameters=parameters)
+    data = simplejson.loads(json)
+    self._CheckForTwitterError(data)
+    return [Status.NewFromJsonDict(x) for x in data]
