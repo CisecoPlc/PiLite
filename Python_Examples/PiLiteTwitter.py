@@ -92,6 +92,7 @@ oldtext = ""
 #print ser.portstr
 ser.write("$$$SPEED50\r")
 ser.write("ready  ")
+print("ready")
 sleep(2)
 
 while True:
@@ -112,8 +113,11 @@ while True:
 		                else:
 		                        ser.write(text + "...")
 		                        text = ""
-	except urllib2.URLError, e:
-		ser.write("...oops... URL error ...")
-		ser.write(e)
+	except (KeyboardInterrupt, SystemExit):
+        	raise
+	except Exception as e:
+		ser.write("...oops...error...")
+		ser.write(str(e))
+		print("Error:" + str(e))
 	sleep(15)             
 
