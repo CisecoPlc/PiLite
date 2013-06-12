@@ -99,7 +99,7 @@ while True:
 	try:
 	        #user = api.GetUser(twitterfeed)
 	        #status = user.GetStatus()
-		statuses = api.GetHomeTimeline(since_id=None, max_id=None, count=1, page=None)
+		statuses = api.GetHomeTimeline(count=1, since_id=None, max_id=None, trim_user=False, exclude_replies=False, contributor_details=False, include_entities=True)
 	        status = statuses[0]
 	        text = "@" + status.GetUser().GetScreenName() + "::" + status.GetText()
 	        text = text.encode('utf-8')
