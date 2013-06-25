@@ -33,23 +33,11 @@
 
 import ConfigParser
 import os
-from time import sleep
 
 import twitter
-import serial
 
 
-class PiLiteBoard(object):
-    def __init__(self):
-        self.ser = serial.Serial("/dev/ttyAMA0", baudrate=9600, timeout=3.0)
-        self.ser.write("$$$SPEED50\r")
-
-    def write(self, text):
-        text = text.encode('utf-8')
-        while text:
-            self.ser.write(text[:14])
-            text = text[14:]
-            sleep(3)
+from PiLiteLib import PiLiteBoard, poll_for_updates
 
 
 class TwitterTimeline(object):
@@ -67,30 +55,12 @@ class TwitterTimeline(object):
 	return "@%s::%s..."%(status.GetUser().GetScreenName(), status.GetText())
 
 
-def poll_for_updates(source, sink, interval=60):
-    oldstatus = None
-    while True:
-        try:
-            status = source.message()
-            if status != oldstatus:
-                print(status)
-                oldstatus = status
-                sink.write(status)
-        except (KeyboardInterrupt, SystemExit):
-            raise
-        except Exception as e:
-            print("Error:" + str(e))
-            sink.write("...oops...error...")
-            sink.write(str(e))
-        sleep(interval)
-
-
 def main():
     source = TwitterTimeline()
     sink = PiLiteBoard()
     print("ready")
     sink.write("ready  ")
-    poll_for_updates(source, sink)
+    poll_for_updates(source, sink, repeat=False)
 
 
 if __name__ == "__main__":

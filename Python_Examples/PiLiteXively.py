@@ -17,8 +17,8 @@ class XivelyDatastream(object):
 
     def message(self):
         feed = self.api.feeds.get(self.feedid)
-        value = feed.datastreams[0].current_value
-        return "%s"%value
+        stream = feed.datastreams[0]
+        return "%s %s %s %s"%(feed.title, stream.id, stream.current_value, stream.unit.label)
 
 
 def main():

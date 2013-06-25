@@ -1,9 +1,7 @@
 #!/usr/bin/env python
-from collections import deque
-
 import arrow
 
-from PiLiteTwitter import PiLiteBoard, poll_for_updates
+from PiLiteLib import PiLiteBoard, poll_for_updates, CyclingSources
 
 
 class WorldTime(object):
@@ -14,19 +12,6 @@ class WorldTime(object):
     def message(self):
        now = arrow.utcnow().to(self.timezone)
        return "{} : {}".format(self.label, now.format("HH:mm:ss"))
-
-
-class CyclingSources(object):
-    def __init__(self, *sources):
-        self.sources = deque(sources)
-
-    def message(self):
-        message = self.sources[0].message()
-        self.sources.rotate(-1)
-        return message
-
-    def __len__(self):
-        return len(self.sources)
 
         
 def main():
