@@ -4,8 +4,7 @@ import os
 
 import xively
 
-from PiLiteTwitter import PiLiteBoard, poll_for_updates
-
+from PiLiteLib import PiLiteBoard, poll_for_updates
 
 
 class XivelyDatastream(object):
