@@ -52,7 +52,7 @@ class TwitterTimeline(object):
     def message(self):
         statuses = self.api.GetHomeTimeline(count=1)
         status = statuses[0]
-	return "@%s::%s..."%(status.GetUser().GetScreenName(), status.GetText())
+    return "@%s::%s..."%(status.GetUser().GetScreenName(), status.GetText())
 
 
 def main():
