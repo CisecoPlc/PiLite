@@ -1,4 +1,14 @@
 #!/usr/bin/env python
+"""
+    
+    a ~/.pilite file should be used to set the Xiveley API Key
+    
+    A skeletal .pilite file:
+    
+    [xively]
+    apikey = *YOU_API_KEY*
+
+"""
 import ConfigParser
 import os
 
