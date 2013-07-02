@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """ Pi-LITE Emulator
+    http://shop.ciseco.co.uk/pi-lite-lots-of-leds-for-the-raspberry-pi-0805-red/
     
     Copyright (c) 2013 Ciseco Ltd.
     Code written by Ciseco Ltd. June 15th 2013
