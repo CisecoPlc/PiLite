@@ -48,10 +48,10 @@ Feed Examples
 
 The following reuqire a few more modules
 
-Xively and reuests 
+Twitter, Xively and requests (installing Xively-python will also install requests)
 $ sudo apt-get install python-setuptools
 $ sudo easy_install pip
-$ sudo pip install xively-python
+$ sudo pip install xively-python twitter arrow
 
 PiLiteLib.py:
     Core library file used by the following examples
