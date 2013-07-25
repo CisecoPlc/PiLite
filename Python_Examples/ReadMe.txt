@@ -56,7 +56,7 @@ $ sudo pip install xively-python arrow
 For the Twitter example:
 $ git clone git://github.com/bear/python-twitter.git
 $ cd python-twitter
-$ sudo pip install -r requirments.txt
+$ sudo pip install -r requirements.txt
 $ python setup.py build
 $ sudo python setup.py install
 
