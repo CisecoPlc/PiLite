@@ -331,8 +331,8 @@ class PiLITE(object):
                     
                     if self.commandbuffer.startswith("CROLL"):
                         # this is a SCROLL command
-                        iTmp = int(self.commandbuffer[4:])
-                        if (iTmp == 0 ):
+                        iTmp = int(self.commandbuffer[5:])
+                        if (iTmp != 0 ):
                             self.ledScroll(iTmp)
                     
                 elif self.commandchar == 'T':	# Tc,r,char - display char at c,r
