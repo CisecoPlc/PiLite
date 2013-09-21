@@ -407,10 +407,6 @@ class PiLITE(object):
                     elif str(self.commandbuffer).startswith("LL,OFF"):
                         self.ledClear()
 
-                elif self.commandchar == 'G':	# Test code - switch Digital 14 on
-                    pinMode(14,OUTPUT)
-                    digitalWrite(14,HIGH)
-
                 else:	# not a valid command
                     pass
                 self.status = self.STATUS_NORMAL
