@@ -2,7 +2,7 @@
 
 from Tkinter import *
 import serial
-
+import sys
 
 def vuSet(num, value):
     s.write("$$$V{},{}\r".format(num, value))
@@ -16,7 +16,7 @@ s.port = "/dev/ttyAMA0"
 try:
     s.open()
 except serial.SerialException, e:
-    sys.stderr.write("could not open port %r: %s\n" % (port, e))
+    sys.stderr.write("could not open port %r: %s\n" % (s.port, e))
     sys.exit(1)
                 
 s.write("$$$ALL,OFF\r")

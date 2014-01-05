@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-import serial, time
+import serial, time, sys
 
 
 s = serial.Serial()
@@ -12,7 +12,7 @@ s.port = "/dev/ttyAMA0"
 try:
     s.open()
 except serial.SerialException, e:
-    sys.stderr.write("could not open port %r: %s\n" % (port, e))
+    sys.stderr.write("could not open port %r: %s\n" % (s.port, e))
     sys.exit(1)
 
 s.write("$$$ALL,OFF\r")
